@@ -11,10 +11,13 @@ tpm2_flushcontext -Q -t
 tpm2_flushcontext -Q -s
 tpm2_flushcontext -Q -l
 
+
+dir=$(mktemp -d /tmp/machine.XXXXXX)
+
 # Generate EK and AK
-tpm2_createek -c $EKHANDLE -G rsa -u /tmp/ek.pub
-tpm2_createak -C $EKHANDLE -c /tmp/ak.ctx -G rsa -g sha256 -s rsassa -u /tmp/ak.pub -f pem -n /tmp/ak.name
-tpm2_evictcontrol -c /tmp/ak.ctx $AKHANDLE
+tpm2_createek -c $EKHANDLE -G rsa -u $dir/ek.pub
+tpm2_createak -C $EKHANDLE -c $dir/ak.ctx -G rsa -g sha256 -s rsassa -u $dir/ak.pub -f pem -n $dir/ak.name
+tpm2_evictcontrol -c $dir/ak.ctx $AKHANDLE
 
 
 file=$(mktemp -t deviceInfo.XXXXXX)
