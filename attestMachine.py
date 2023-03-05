@@ -17,26 +17,26 @@ medSRTM = "1746e0fd-984c-4fe6-bd50-983e4a5e7496"
 
 tpm_quote = "sudo tpm2_quote -c 0x81010003 -l sha1:0,1,2,3,4,5,6,7,8,9 -m quote.msg -s quote.sig -g sha256 -q 123456 -o pcrs.out"
 
-session = paramiko.SSHClient()
+# session = paramiko.SSHClient()
 
-session.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+# session.set_missing_host_key_policy(paramiko.AutoAddPolicy())
 
-session.connect(
-    hostname=host,
-    username=machine_usr,
-    password=machine_pass
-)
+# session.connect(
+#     hostname=host,
+#     username=machine_usr,
+#     password=machine_pass
+# )
 
-# Get element ID
+# # Get element ID
 
-itemin, itemout, itemerr = session.exec_command('tpm2_nvread 0x15000a1')
+# itemin, itemout, itemerr = session.exec_command('tpm2_nvread 0x15000a1')
 
-item_id = itemout.read().decode()
-print(item_id)
+# item_id = itemout.read().decode()
+# print(item_id)
 
-time.sleep(0.5)
+# time.sleep(0.5)
 
-session.close()
+# session.close()
 
 post_session = requests.post(BASE_URL + "sessions/open")
 
@@ -46,7 +46,7 @@ print(post_session.json()['itemid'])
 ###
 
 # Session is open hear
-
+item_id = "d9bbc32b-feac-406f-b494-b4b3f3ffa396"
 attest_json = {
     'eid': item_id,
     'pid': medCRTM,
