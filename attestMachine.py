@@ -1,4 +1,4 @@
-import os, paramiko, time, requests, json
+import requests
 from ipfsInteraction import *
 
 # Set details to log into machine using ssh
