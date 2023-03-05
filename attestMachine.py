@@ -1,5 +1,5 @@
 import requests
-from ipfsInteraction import *
+
 
 # Set details to log into machine using ssh
 print("Log into machine")
