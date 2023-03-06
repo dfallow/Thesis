@@ -62,7 +62,7 @@ def initialSession(userName, password):
         password=password
     )
 
-    stdin, stdout, stderr = session.exec_command('./AttestationEngine/apps/enroller/minimalclient/provisionMinimal')
+    stdin, stdout, stderr = session.exec_command('bash david/provisionDevice')
 
     print(stdout.read().decode())
 
