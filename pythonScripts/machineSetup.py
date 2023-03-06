@@ -19,6 +19,7 @@ new_machine = {
         ],
     }
 
+ipfs_hash = "5h4ghJEkg83gneugHEI"
 
 def registerMachine(userName, password, deviceName):
 
@@ -34,10 +35,10 @@ def registerMachine(userName, password, deviceName):
     #ipfs_hash = storeInIPFS(deviceName, ek_pub, ak_pub)
 
     print("Storing in NVRAM")
-    storeDataNVRAM(userName, password, item_id, "5h4ghJEkg83gneugHEI")
+    storeDataNVRAM(userName, password, item_id, ipfs_hash)
 
     print("Updating Element in A10")
-    updateElement(item_id)
+    updateElement(item_id, ipfs_hash)
 
     print("End")
 
@@ -160,7 +161,8 @@ def storeDataNVRAM(userName, password, itemId, ipfsHash):
     session.close()
 
 
-def updateElement(itemId):
+def updateElement(itemId, ipfsHash):
+    new_machine["ipfs"] = ipfsHash
     put_r = requests.put(config.BASE_URL + "element/" + itemId, json=new_machine)
 
 
