@@ -29,6 +29,9 @@ def registerMachine(userName, password, deviceName):
     print("Creating Initial Session")
     ek_pub, ak_pub = initialSession(userName, password)
 
+    print(ek_pub)
+    print(ak_pub)
+
     print("Adding Element to A10")
     item_id = addNewElement(ek_pub, ak_pub)
 
