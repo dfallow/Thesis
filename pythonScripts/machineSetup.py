@@ -73,6 +73,10 @@ def initialSession(userName, password):
     ek = ek_out.read().decode()
     ak = ak_out.read().decode()
 
+    print("In Initial Session")
+    print(ek)
+    print(ak)
+
 
     # q_out -> initial quote after device is first created
     q_in, q_out, q_err = session.exec_command(tpm_quote)
