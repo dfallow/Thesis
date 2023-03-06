@@ -89,9 +89,9 @@ def addNewElement(ek, ak):
 
     #new_machine["ek ak pub"] = ek + ak
 
-    json_object = json.loads('{ek + ak}')
+    json_object = json.loads("{ek + ak}")
 
-    new_machine["tpm2"] = {'tpm0': json_object}
+    new_machine["tpm2"] = {"tpm0": json_object}
 
     # Put new element to a10rest
     new_machine["ek"] = "0x810100EE"
