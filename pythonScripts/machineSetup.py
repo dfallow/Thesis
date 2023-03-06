@@ -29,8 +29,17 @@ def registerMachine(userName, password, deviceName):
     print("Creating Initial Session")
     ek_pub, ak_pub = initialSession(userName, password)
 
+    tpm0 = {
+        "akhandle": "0x810100aa",
+        "akname": "empty",
+        "akpem": ak_pub,
+        "ekhandle": "0x810100ee",
+        "ekname": "empty",
+        "ekpem": ek_pub
+    }
+
     print("Adding Element to A10")
-    item_id = addNewElement(ek_pub, ak_pub)
+    item_id = addNewElement(tpm0)
 
     print("Adding Item to IPFS")
     #ipfs_hash = storeInIPFS(deviceName, ek_pub, ak_pub)
@@ -64,8 +73,8 @@ def initialSession(userName, password):
     print(stdout.read().decode())
 
     # read ek and ak public keys
-    ek_in, ek_out, ek_err = session.exec_command("sudo tpm2_readpublic -c 0x810100EE -o ek.pem -f pem")
-    ak_in, ak_out, ak_err = session.exec_command("sudo tpm2_readpublic -c 0x810100AA -o ak.pem -f pem")
+    session.exec_command("sudo tpm2_readpublic -c 0x810100EE -o ek.pem -f pem")
+    session.exec_command("sudo tpm2_readpublic -c 0x810100AA -o ak.pem -f pem")
 
     ekpem_in, ekpem_out, ekpem_err = session.exec_command("sudo cat ek.pem")
     akpem_in, akpem_out, akepm_err = session. exec_command("sudo cat ek.pem")
@@ -87,16 +96,16 @@ def initialSession(userName, password):
 
     session.close()
 
-    return ek, ak
+    return ek_pem, ak_pem
 
 # Creates PUT request to store the device as an element in A10
-def addNewElement(ek, ak):
+def addNewElement(tpm0):
 
     #new_machine["ek ak pub"] = ek + ak
 
     json_object = json.loads("{ek + ak}")
 
-    new_machine["tpm2"] = {"tpm0": json_object}
+    new_machine["tpm2"] = {"tpm0": tpm0}
 
     # Put new element to a10rest
     new_machine["ek"] = "0x810100EE"
