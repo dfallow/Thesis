@@ -1,4 +1,5 @@
 import os, paramiko, time, requests, json, ipfsApi
+import config
 #from ipfsInteraction import *
 
 # Set details to log into machine using ssh
@@ -6,12 +7,12 @@ import os, paramiko, time, requests, json, ipfsApi
 #machine_usr = input("Enter machine user: ")
 #machine_pass = input("Enter machine password: ")
 #machine_name = input("Enter the device name: ")
-host = "192.168.0.118"
-BASE_URL = "http://127.0.0.1:8510/v2/"
+#host = "192.168.0.118"
+#BASE_URL = "http://127.0.0.1:8510/v2/"
 
 new_machine = {
         "description": "Machine Create by Manufacturer",
-        "endpoint": "http://127.0.0.1:8530",
+        "endpoint": config.DEVICE_IP + ":8530",
         "protocol": "A10HTTPREST",
         "type": [
             "tpm2.0"
@@ -46,14 +47,12 @@ session = paramiko.SSHClient()
 # an initial quote from the device
 def initialSession(userName, password):
 
-    tpm_quote = "sudo tpm2_quote -c 0x81010003 -l sha1:0,1,2,3,4,5,6,7,8,9 -m quote.msg -s quote.sig -g sha256 -q 123456 -o pcrs.out"
-
-    
+    tpm_quote = "sudo tpm2_quote -c 0x81010003 -l sha256:0,1,2,3,4 -m quote.msg -s quote.sig -g sha256 -q 123456 -o pcrs.out"
 
     session.set_missing_host_key_policy(paramiko.AutoAddPolicy())
 
     session.connect(
-        hostname=host,
+        hostname=config.DEVICE_IP,
         username=userName,
         password=password
     )
@@ -87,7 +86,7 @@ def addNewElement():
     new_machine["ek"] = "0x810100EE"
     new_machine["ak"] = "0x810100AA"
 
-    post_r = requests.post(BASE_URL + "element", json=new_machine)
+    post_r = requests.post(config.BASE_URL + "element", json=new_machine)
 
     item_id = post_r.json()['itemid']
 
@@ -134,7 +133,7 @@ def storeInIPFS(machine_name, ek_pub, ak_pub):
 def storeDataNVRAM(userName, password, itemId, ipfsHash):
 
     session.connect(
-        hostname=host,
+        hostname=config.DEVICE_IP,
         username=userName,
         password=password
     )
@@ -162,7 +161,7 @@ def storeDataNVRAM(userName, password, itemId, ipfsHash):
 
 
 def updateElement(itemId):
-    put_r = requests.put(BASE_URL + "element/" + itemId, json=new_machine)
+    put_r = requests.put(config.BASE_URL + "element/" + itemId, json=new_machine)
 
 
 #registerMachine(machine_usr, machine_pass, machine_name)
