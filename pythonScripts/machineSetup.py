@@ -11,7 +11,7 @@ import config
 #BASE_URL = "http://127.0.0.1:8510/v2/"
 
 new_machine = {
-        "description": "Machine Create by Manufacturer",
+        "description": "Machine Created by Manufacturer",
         "endpoint": config.DEVICE_IP + ":8530",
         "hostname": "pi",
         "protocol": "A10HTTPREST",
