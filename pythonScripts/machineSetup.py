@@ -103,7 +103,6 @@ def addNewElement(tpm0):
 
     #new_machine["ek ak pub"] = ek + ak
 
-    json_object = json.loads("{ek + ak}")
 
     new_machine["tpm2"] = {"tpm0": tpm0}
 
