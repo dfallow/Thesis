@@ -31,10 +31,10 @@ def registerMachine(userName, password, deviceName):
     item_id = addNewElement()
 
     print("Adding Item to IPFS")
-    ipfs_hash = storeInIPFS(deviceName, ek_pub, ak_pub)
+    #ipfs_hash = storeInIPFS(deviceName, ek_pub, ak_pub)
 
     print("Storing in NVRAM")
-    storeDataNVRAM(userName, password, item_id, ipfs_hash)
+    storeDataNVRAM(userName, password, item_id, "5h4ghJEkg83gneugHEI")
 
     print("Updating Element in A10")
     updateElement(item_id)
