@@ -101,14 +101,7 @@ def initialSession(ip, userName, password):
 # Creates PUT request to store the device as an element in A10
 def addNewElement(tpm0):
 
-    #new_machine["ek ak pub"] = ek + ak
-
-
     new_machine["tpm2"] = {"tpm0": tpm0}
-
-    # Put new element to a10rest
-    new_machine["ek"] = "0x810100EE"
-    new_machine["ak"] = "0x810100AA"
 
     post_r = requests.post(config.BASE_URL + "element", json=new_machine)
 
