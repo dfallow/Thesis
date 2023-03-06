@@ -33,12 +33,13 @@ class RegisterScreen(QMainWindow):
         self.btn_register.clicked.connect(self.registerfunction)
 
     def registerfunction(self):
+        address = self.input_address.text()
         user = self.input_username.text()
         password = self.input_password.text()
         device_name = self.input_name.text()
         print(user + password)
 
-        registerMachine(user, password, device_name)
+        registerMachine(address, user, password, device_name)
 
 class AllDevicesScreen(QMainWindow):
     def __init__(self):

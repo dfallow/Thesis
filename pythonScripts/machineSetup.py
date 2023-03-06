@@ -22,12 +22,12 @@ new_machine = {
 
 ipfs_hash = "5h4ghJEkg83gneugHEI"
 
-def registerMachine(userName, password, deviceName):
+def registerMachine(address, userName, password, deviceName):
 
     new_machine["name"] = deviceName
 
     print("Creating Initial Session")
-    ek_pub, ak_pub = initialSession(userName, password)
+    ek_pub, ak_pub = initialSession(address, userName, password)
 
     tpm0 = {
         "akhandle": "0x810100aa",
@@ -45,7 +45,7 @@ def registerMachine(userName, password, deviceName):
     #ipfs_hash = storeInIPFS(deviceName, ek_pub, ak_pub)
 
     print("Storing in NVRAM")
-    storeDataNVRAM(userName, password, item_id, ipfs_hash)
+    storeDataNVRAM(address, userName, password, item_id, ipfs_hash)
 
     print("Updating Element in A10")
     updateElement(item_id, ipfs_hash)
@@ -56,14 +56,14 @@ session = paramiko.SSHClient()
 
 # inital connection to device which creates ek/ak keys and gets
 # an initial quote from the device
-def initialSession(userName, password):
+def initialSession(ip, userName, password):
 
     tpm_quote = "sudo tpm2_quote -c 0x81010003 -l sha256:0,1,2,3,4 -m quote.msg -s quote.sig -g sha256 -q 123456 -o pcrs.out"
 
     session.set_missing_host_key_policy(paramiko.AutoAddPolicy())
 
     session.connect(
-        hostname=config.DEVICE_IP,
+        hostname=ip,
         username=userName,
         password=password
     )
@@ -154,10 +154,10 @@ def storeInIPFS(machine_name, ek_pub, ak_pub):
     return ipfs_hash
 
 # connects to device and stores itemID and IPFS hash in NVRAM
-def storeDataNVRAM(userName, password, itemId, ipfsHash):
+def storeDataNVRAM(ip, userName, password, itemId, ipfsHash):
 
     session.connect(
-        hostname=config.DEVICE_IP,
+        hostname=ip,
         username=userName,
         password=password
     )
