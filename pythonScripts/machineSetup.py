@@ -70,12 +70,10 @@ def initialSession(userName, password):
     ek_in, ek_out, ek_err = session.exec_command("sudo tpm2_readpublic -c 0x810100EE -o ek.pem -f pem")
     ak_in, ak_out, ak_err = session.exec_command("sudo tpm2_readpublic -c 0x810100EE -o ek.pem -f pem")
 
-    ek = ek_out.read().decode()
-    ak = ak_out.read().decode()
+    print(ek_out.read().decode())
+    print(ak_out.read().decode())
 
     print("In Initial Session")
-    print(ek)
-    print(ak)
 
 
     # q_out -> initial quote after device is first created
@@ -87,7 +85,7 @@ def initialSession(userName, password):
 
     session.close()
 
-    return ek, ak
+    return "test", "test"
 
 # Creates PUT request to store the device as an element in A10
 def addNewElement(ek, ak):
