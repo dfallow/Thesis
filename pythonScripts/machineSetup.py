@@ -13,6 +13,7 @@ import config
 new_machine = {
         "description": "Machine Create by Manufacturer",
         "endpoint": config.DEVICE_IP + ":8530",
+        "hostname": "pi",
         "protocol": "A10HTTPREST",
         "type": [
             "tpm2.0"
@@ -29,7 +30,7 @@ def registerMachine(userName, password, deviceName):
     ek_pub, ak_pub = initialSession(userName, password)
 
     print("Adding Element to A10")
-    item_id = addNewElement()
+    item_id = addNewElement(ek_pub, ak_pub)
 
     print("Adding Item to IPFS")
     #ipfs_hash = storeInIPFS(deviceName, ek_pub, ak_pub)
@@ -82,7 +83,9 @@ def initialSession(userName, password):
     return ek, ak
 
 # Creates PUT request to store the device as an element in A10
-def addNewElement():
+def addNewElement(ek, ak):
+
+    print(ek + ak)
     # Put new element to a10rest
     new_machine["ek"] = "0x810100EE"
     new_machine["ak"] = "0x810100AA"
