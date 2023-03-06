@@ -29,9 +29,6 @@ def registerMachine(userName, password, deviceName):
     print("Creating Initial Session")
     ek_pub, ak_pub = initialSession(userName, password)
 
-    print(ek_pub)
-    print(ak_pub)
-
     print("Adding Element to A10")
     item_id = addNewElement(ek_pub, ak_pub)
 
@@ -70,8 +67,8 @@ def initialSession(userName, password):
     ek_in, ek_out, ek_err = session.exec_command("sudo tpm2_readpublic -c 0x810100EE -o ek.pem -f pem")
     ak_in, ak_out, ak_err = session.exec_command("sudo tpm2_readpublic -c 0x810100EE -o ek.pem -f pem")
 
-    print(ek_out.read().decode())
-    print(ak_out.read().decode())
+    ek = ek_out.read().decode()
+    ak = ak_out.read().decode()
 
     print("In Initial Session")
 
@@ -85,12 +82,12 @@ def initialSession(userName, password):
 
     session.close()
 
-    return "test", "test"
+    return ek, ak
 
 # Creates PUT request to store the device as an element in A10
 def addNewElement(ek, ak):
 
-    print(ek + ak)
+    new_machine["ek ak pub"] = ek + ak
     # Put new element to a10rest
     new_machine["ek"] = "0x810100EE"
     new_machine["ak"] = "0x810100AA"
