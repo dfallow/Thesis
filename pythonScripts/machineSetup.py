@@ -71,7 +71,7 @@ def initialSession(userName, password):
     ak = ak_out.read().decode()
 
     print("In Initial Session")
-    print(ek)
+    print(ek['name'])
 
 
     # q_out -> initial quote after device is first created
