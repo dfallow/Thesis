@@ -65,13 +65,17 @@ def initialSession(userName, password):
 
     # read ek and ak public keys
     ek_in, ek_out, ek_err = session.exec_command("sudo tpm2_readpublic -c 0x810100EE -o ek.pem -f pem")
-    ak_in, ak_out, ak_err = session.exec_command("sudo tpm2_readpublic -c 0x810100EE -o ek.pem -f pem")
+    ak_in, ak_out, ak_err = session.exec_command("sudo tpm2_readpublic -c 0x810100AA -o ak.pem -f pem")
 
-    ek = ek_out.read().decode()
-    ak = ak_out.read().decode()
+    ekpem_in, ekpem_out, ekpem_err = session.exec_command("sudo cat ek.pem")
+    akpem_in, akpem_out, akepm_err = session. exec_command("sudo cat ek.pem")
+
+    ek_pem = ekpem_out.read().decode()
+    ak_pem = akpem_out.read().decode()
 
     print("In Initial Session")
-    print(ek)
+    print(ek_pem)
+    print(ak_pem)
 
 
     # q_out -> initial quote after device is first created
