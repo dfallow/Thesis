@@ -70,17 +70,23 @@ def initialSession(ip, userName, password):
 
     stdin, stdout, stderr = session.exec_command('bash david/provisionDevice')
 
+    time.sleep(0.5)
+
     print(stdout.read().decode())
 
     # read ek and ak public keys
     test_in, test_out, test_err = session.exec_command("sudo tpm2_readpublic -c 0x810100EE -o ek.pem -f pem")
     test2_in, test2_out, test2_err = session.exec_command("sudo tpm2_readpublic -c 0x810100AA -o ak.pem -f pem")
 
+    time.sleep(0.5)
+
     print(test_out.read().decode())
     print(test2_out.read().decode())
 
     ekpem_in, ekpem_out, ekpem_err = session.exec_command("sudo cat ek.pem")
     akpem_in, akpem_out, akepm_err = session. exec_command("sudo cat ak.pem")
+
+    time.sleep(0.5)
 
     ek_pem = ekpem_out.read().decode()
     ak_pem = akpem_out.read().decode()
