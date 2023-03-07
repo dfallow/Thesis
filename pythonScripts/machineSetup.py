@@ -73,11 +73,14 @@ def initialSession(ip, userName, password):
     print(stdout.read().decode())
 
     # read ek and ak public keys
-    session.exec_command("sudo tpm2_readpublic -c 0x810100EE -o ek.pem -f pem")
-    session.exec_command("sudo tpm2_readpublic -c 0x810100AA -o ak.pem -f pem")
+    test_in, test_out, test_err = session.exec_command("sudo tpm2_readpublic -c 0x810100EE -o ek.pem -f pem")
+    test2_in, test2_out, test2_err = session.exec_command("sudo tpm2_readpublic -c 0x810100AA -o ak.pem -f pem")
+
+    print(test_out.read().decode())
+    print(test2_out.read().decode())
 
     ekpem_in, ekpem_out, ekpem_err = session.exec_command("sudo cat ek.pem")
-    akpem_in, akpem_out, akepm_err = session. exec_command("sudo cat ek.pem")
+    akpem_in, akpem_out, akepm_err = session. exec_command("sudo cat ak.pem")
 
     ek_pem = ekpem_out.read().decode()
     ak_pem = akpem_out.read().decode()
